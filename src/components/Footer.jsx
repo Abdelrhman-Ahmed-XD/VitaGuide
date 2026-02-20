@@ -52,7 +52,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-500">
-            © 2025 VitaGuide — Pharmacy Faculty Graduation Project
+            © 2026 VitaGuide — MTI Pharmacy Faculty
           </p>
           <p className="text-xs text-gray-500 flex items-center gap-1">
             Made with <Heart size={12} className="text-red-400 fill-red-400" /> for public health education
