@@ -1,16 +1,16 @@
 import { GraduationCap, Target, Heart, Users } from "lucide-react";
 
 const teamMembers = [
-  { name: "Team Member 1", role: "Research Lead — Vitamins A, D" },
-  { name: "Team Member 2", role: "Research Lead — B Vitamins" },
-  { name: "Team Member 3", role: "Research Lead — Vitamins C, E, K" },
-  { name: "Team Member 4", role: "Content Writing & Editing" },
-  { name: "Team Member 5", role: "Content Writing & Editing" },
-  { name: "Team Member 6", role: "Questionnaire Logic & Symptom Data" },
-  { name: "Team Member 7", role: "Questionnaire Logic & Symptom Data" },
-  { name: "Team Member 8", role: "Website Design & Frontend" },
-  { name: "Team Member 9", role: "Website Development" },
-  { name: "Team Member 10", role: "Project Coordination & References" },
+  { name: "Radwa Ahmed Fathy", role: "Research Lead — Vitamins A, D" },
+  { name: "Reem Sayed Abdelsatar", role: "Research Lead — B Vitamins" },
+  { name: "Rahma Mostafa Abohashim", role: "Research Lead — Vitamins C, E, K" },
+  { name: "Omar Mohamed Ammar", role: "Content Writing & Editing" },
+  { name: "Omar Khaled Ali Eleraky", role: "Content Writing & Editing" },
+  { name: "Sara Saeed Ali Shalaan", role: "Questionnaire Logic & Symptom Data" },
+  { name: "Omnia Medhat Rashad Rasd ", role: "Questionnaire Logic & Symptom Data" },
+  { name: "Rawan Ayman Mohamed ", role: "Website Design & Frontend" },
+  { name: "Rawda Mohamed Sadiq ", role: "Website Development" },
+  { name: "Rofida Noumiry Mohamed ", role: "Project Coordination & References" },
 ];
 
 const aims = [
@@ -104,9 +104,7 @@ export default function About() {
               </div>
             ))}
           </div>
-          <p className="text-center text-gray-400 text-xs mt-4 italic">
-            * Replace team member names with your actual names
-          </p>
+
         </div>
 
         {/* Supervisors / Faculty */}
@@ -117,8 +115,8 @@ export default function About() {
           </p>
           <div className="space-y-2">
             <div className="bg-white/10 rounded-xl p-3">
-              <p className="font-medium text-sm">Supervisor: Prof. / Dr. [Supervisor Name]</p>
-              <p className="text-gray-400 text-xs">Department of [Relevant Department]</p>
+              <p className="font-medium text-sm">Supervisor: Prof. / Dr. [Noha Fawzy]</p>
+              <p className="text-gray-400 text-xs">Department of [ Pharmacology & Toxicology]</p>
             </div>
           </div>
         </div>

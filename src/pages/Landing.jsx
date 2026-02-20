@@ -7,6 +7,7 @@ const features = [
     title: "11 Vitamin Profiles",
     description: "In-depth pages for every major vitamin: benefits, deficiency signs, food sources, dosing, and toxicity.",
     color: "bg-blue-50 text-blue-600",
+
   },
   {
     icon: ClipboardList,
@@ -50,10 +51,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              {/*<div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-green-300 text-sm px-4 py-2 rounded-full mb-6 border border-white/10">*/}
-              {/*  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>*/}
-              {/*  Pharmacy Faculty Graduation Project 2025*/}
-              {/*</div>*/}
+
 
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
                 Your Guide to
