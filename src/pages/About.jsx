@@ -111,12 +111,12 @@ export default function About() {
         <div className="bg-gradient-to-br from-deep to-[#1a3a5c] rounded-2xl p-8 text-white">
           <h2 className="font-display text-2xl font-bold mb-3">Academic Supervision</h2>
           <p className="text-gray-300 text-sm leading-relaxed mb-4">
-            This project was developed under the academic supervision of the Faculty of Pharmacy, [Your University Name], as part of the [Year] graduation requirements.
+            This project was developed under the academic supervision of the Faculty of Pharmacy, MTI , as part of the 2026 graduation requirements.
           </p>
           <div className="space-y-2">
             <div className="bg-white/10 rounded-xl p-3">
-              <p className="font-medium text-sm">Supervisor: Prof. / Dr. [Noha Fawzy]</p>
-              <p className="text-gray-400 text-xs">Department of [ Pharmacology & Toxicology]</p>
+              <p className="font-medium text-sm">Supervisor: Prof. / Dr. Noha Fawzy</p>
+              <p className="text-gray-400 text-xs">Department of Pharmacology & Toxicology</p>
             </div>
           </div>
         </div>
