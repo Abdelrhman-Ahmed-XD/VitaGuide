@@ -31,17 +31,17 @@ export default function VitaminPage() {
     const getYoutubeId = () => {
         // You can customize this by adding youtube_id to vitamin data
         const youtubeIds = {
-            "vitamin-a": "https://youtu.be/lkAnmSj9KuM?si=cQ4Sht8i4Y-GZbLu",
-            "vitamin-b1": "qXyUNIDcWEA",
-            "vitamin-b12": "0oVK6fLlp1g",
-            "vitamin-c": "E2iCnZ3LJBQ",
-            "vitamin-d": "3VhRYzJcqI8",
-            "vitamin-e": "VUvJIdWfFfI",
-            "vitamin-k": "FaM8CVTNNX4",
-            "vitamin-b6": "K-ixPT1-E9g",
-            "folate": "Y8NjkiPLl1E",
-            "vitamin-b2": "o8fJRfCE17E",
-            "vitamin-b3": "PwqMTIvANRw",
+            "vitamin-a": "",
+            "vitamin-b1": "",
+            "vitamin-b12": "",
+            "vitamin-c": "",
+            "vitamin-d": "",
+            "vitamin-e": "",
+            "vitamin-k": "",
+            "vitamin-b6": "",
+            "folate": "",
+            "vitamin-b2": "",
+            "vitamin-b3": "",
         };
         return youtubeIds[id] || "dQw4w9WgXcQ";
     };
@@ -158,7 +158,6 @@ export default function VitaminPage() {
                     </div>
                 </div>
 
-
                 {/* YouTube Video */}
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                     <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
@@ -176,23 +175,23 @@ export default function VitaminPage() {
                     </div>
                 </div>
 
-
                 {/* Food Sources */}
                 <Section icon={CheckCircle} title="🍽️ Best Food Sources">
-                    <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {vitamin.sources.map((s, idx) => (
                             <div
                                 key={idx}
-                                className="flex items-center justify-between bg-green-50 rounded-xl p-3 border border-green-100 hover:bg-green-100 transition-colors group cursor-pointer"
+                                className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-green-50 rounded-xl p-3 border border-green-100 hover:bg-green-100 transition-colors group cursor-pointer"
                             >
-                                <span className="font-medium text-gray-700 text-sm">{s.food}</span>
-                                <span className="text-gray-500 text-xs bg-white px-3 py-1.5 rounded-lg border opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                <span className="font-medium text-gray-700 text-sm mb-2 sm:mb-0 break-words flex-1">{s.food}</span>
+                                <span className="text-gray-500 text-xs bg-white px-3 py-1.5 rounded-lg border w-full sm:w-auto text-center sm:text-right opacity-0 sm:opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal sm:whitespace-nowrap flex-shrink-0">
                   {s.amount}
                 </span>
                             </div>
                         ))}
                     </div>
-                    <p className="text-xs text-gray-500 mt-3 italic">💡 Hover over food names to see exact amounts</p>
+                    <p className="text-xs text-gray-500 mt-3 italic block sm:hidden">👇 Tap on food items to see exact amounts</p>
+                    <p className="text-xs text-gray-500 mt-3 italic hidden sm:block">💡 Hover over food names to see exact amounts</p>
                 </Section>
 
                 {/* At Risk Groups */}
