@@ -240,7 +240,7 @@ export default function VitaminPage() {
                     <ul className="space-y-1">
                         {vitamin.references.map((r, idx) => (
                             <li key={idx} className="text-gray-500 text-sm flex items-start gap-2">
-                                <span className="flex-shrink-0 mt-0.5">•</span>
+                                {/*<span className="flex-shrink-0 mt-0.5">•</span>*/}
                                 {r}
                             </li>
                         ))}
