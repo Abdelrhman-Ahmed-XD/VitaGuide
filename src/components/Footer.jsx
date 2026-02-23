@@ -32,9 +32,6 @@ export default function Footer() {
                         <p className="text-sm text-gray-400 leading-relaxed">
                             Evidence-based vitamin and mineral education for everyone. Bridging the gap between science and public health.
                         </p>
-                        <p className="text-xs text-gray-500 mt-3">
-                            A graduation project by MTI Pharmacy Faculty 2026
-                        </p>
                     </div>
 
                     {/* Quick Links */}
@@ -74,11 +71,6 @@ export default function Footer() {
                             <li>
                                 <a href="https://www.mayoclinic.org" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">
                                     Mayo Clinic
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">
-                                    PubMed Research
                                 </a>
                             </li>
                             <li>
