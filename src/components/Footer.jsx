@@ -40,6 +40,7 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm">
                             {[
                                 { to: "/home", label: "Vitamins Library" },
+                                { to: "/Minerals", label: "Minerals Library" },
                                 { to: "/diagnosis", label: "Symptom Checker" },
                                 { to: "/blog", label: "Health Blog" },
                                 { to: "/references", label: "Scientific References" },
