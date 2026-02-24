@@ -34,7 +34,7 @@ export default function VitaminPage() {
             "vitamin-b1": "0NlkyXqepGs",
             "vitamin-b12": "0oVK6fLlp1g",
             "vitamin-c": "E2iCnZ3LJBQ",
-            "vitamin-d": "hDfaqTgyqc",
+            "vitamin-d": "public/videos/vitamin-D,E,K.mp4",
             "vitamin-e": "VUvJIdWfFfI",
             "vitamin-k": "FaM8CVTNNX4",
             "vitamin-b6": "K-ixPT1-E9g",
@@ -176,17 +176,38 @@ export default function VitaminPage() {
 
 
 
-                {/* YouTube Video */}
+                {/* Video Section */}
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                     <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
-                        <iframe
-                            title={`Everything about ${vitamin.name}`}
-                            className="absolute top-0 left-0 w-full h-full"
-                            src={getYoutubeUrl()}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        />
+                        {["vitamin-d", "vitamin-e", "vitamin-k"].includes(id.toLowerCase()) ? (
+                            <video
+                                className="absolute top-0 left-0 w-full h-full object-cover"
+                                controls
+                                muted
+                                autoPlay
+                                ref={(el) => {
+                                    if (el && vitamin.video_start !== undefined) {
+                                        el.currentTime = vitamin.video_start;
+                                        const stopTime = vitamin.video_end || el.duration;
+                                        el.ontimeupdate = () => {
+                                            if (el.currentTime >= stopTime) el.pause();
+                                        };
+                                    }
+                                }}
+                            >
+                                <source src={vitamin.video_path} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        ) : (
+                            <iframe
+                                title={`Everything about ${vitamin.name}`}
+                                className="absolute top-0 left-0 w-full h-full"
+                                src={getYoutubeUrl()}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                        )}
                     </div>
                     <div className="p-4 bg-gray-50">
                         <p className="text-xs text-gray-500">Video: Everything you need to know about {vitamin.name}</p>
@@ -269,6 +290,16 @@ export default function VitaminPage() {
                     </ul>
                 </div>
 
+
+
+
+                {/* SDG Alignment */}
+                <div className="bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200 rounded-2xl p-6">
+                    <h3 className="font-bold text-cyan-900 mb-2">🌍 SDG 3 – Good Health & Well-being</h3>
+                    <p className="text-cyan-800 text-sm leading-relaxed">
+                        Understanding {vitamin.name.toLowerCase()} absorption and its role in vitamin metabolism contributes to preventing micronutrient-related health issues, reducing malnutrition, and promoting optimal nutritional status across all populations.
+                    </p>
+                </div>
                 {/* Disclaimer */}
                 <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
                     <p className="text-amber-800 text-xs leading-relaxed">
