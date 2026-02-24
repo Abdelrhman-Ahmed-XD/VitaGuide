@@ -21,7 +21,7 @@ export default function Home() {
             Vitamins Library
           </h1>
           <p className="text-gray-300 text-lg mb-8">
-            Explore all 11 essential vitamins — their benefits, deficiency signs, food sources, and safe supplementation.
+            Explore all essential vitamins — their benefits, deficiency signs, food sources, and safe supplementation.
           </p>
           {/* Search */}
           <div className="relative max-w-md mx-auto">

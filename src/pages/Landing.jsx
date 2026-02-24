@@ -4,7 +4,7 @@ import { ArrowRight, BookOpen, ClipboardList, Users, Shield } from "lucide-react
 const features = [
     {
         icon: BookOpen,
-        title: "11 Vitamin Profiles",
+        title: "Vitamin Profiles",
         description: "In-depth pages for every major vitamin: benefits, deficiency signs, food sources, dosing, and toxicity.",
         color: "bg-blue-50 text-blue-600",
         link: "/home",

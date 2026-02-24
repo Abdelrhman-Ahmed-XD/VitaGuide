@@ -27,23 +27,36 @@ export default function VitaminPage() {
         );
     }
 
-    // Extract YouTube video ID from vitamin tagline or use a placeholder
-    const getYoutubeId = () => {
-        // You can customize this by adding youtube_id to vitamin data
+    // Build YouTube URL with timestamps
+    const getYoutubeUrl = () => {
         const youtubeIds = {
-            "vitamin-a": "",
-            "vitamin-b1": "",
-            "vitamin-b12": "",
-            "vitamin-c": "",
-            "vitamin-d": "",
-            "vitamin-e": "",
-            "vitamin-k": "",
-            "vitamin-b6": "",
-            "folate": "",
-            "vitamin-b2": "",
-            "vitamin-b3": "",
+            "vitamin-a": "zOYOSLlb1K8",
+            "vitamin-b1": "0NlkyXqepGs",
+            "vitamin-b12": "0oVK6fLlp1g",
+            "vitamin-c": "E2iCnZ3LJBQ",
+            "vitamin-d": "hDfaqTgyqc",
+            "vitamin-e": "VUvJIdWfFfI",
+            "vitamin-k": "FaM8CVTNNX4",
+            "vitamin-b6": "K-ixPT1-E9g",
+            "folate": "Y8NjkiPLl1E",
+            "vitamin-b2": "o8fJRfCE17E",
+            "vitamin-b3": "PwqMTIvANRw",
         };
-        return youtubeIds[id] || "dQw4w9WgXcQ";
+
+        const videoId = vitamin.youtube_id || youtubeIds[id] || "dQw4w9WgXcQ";
+        let url = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+
+        // Add start time if available
+        if (vitamin.youtube_start !== undefined && vitamin.youtube_start > 0) {
+            url += `&start=${vitamin.youtube_start}`;
+        }
+
+        // Add end time if available
+        if (vitamin.youtube_end !== undefined) {
+            url += `&end=${vitamin.youtube_end}`;
+        }
+
+        return url;
     };
 
     return (
@@ -158,13 +171,18 @@ export default function VitaminPage() {
                     </div>
                 </div>
 
+
+
+
+
+
                 {/* YouTube Video */}
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                     <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
                         <iframe
                             title={`Everything about ${vitamin.name}`}
                             className="absolute top-0 left-0 w-full h-full"
-                            src={`https://www.youtube.com/embed/${getYoutubeId()}?autoplay=1&mute=1`}
+                            src={getYoutubeUrl()}
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
@@ -174,6 +192,10 @@ export default function VitaminPage() {
                         <p className="text-xs text-gray-500">Video: Everything you need to know about {vitamin.name}</p>
                     </div>
                 </div>
+
+
+
+
 
                 {/* Food Sources */}
                 <Section icon={CheckCircle} title="🍽️ Best Food Sources">
@@ -240,7 +262,7 @@ export default function VitaminPage() {
                     <ul className="space-y-1">
                         {vitamin.references.map((r, idx) => (
                             <li key={idx} className="text-gray-500 text-sm flex items-start gap-2">
-                                {/*<span className="flex-shrink-0 mt-0.5">•</span>*/}
+                                <span className="flex-shrink-0 mt-0.5">•</span>
                                 {r}
                             </li>
                         ))}

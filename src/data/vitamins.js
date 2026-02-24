@@ -5,6 +5,9 @@ export const vitamins = [
             emoji: "🥕",
             tagline: "The Vision & Immunity Vitamin",
             color: "#FF6B35",
+            youtube_id: "zOYOSLlb1K8",
+            youtube_start: 0,    // Start at 15 seconds
+            youtube_end: 300,
             gradient: "from-orange-400 to-red-500",
             benefits: [
                 "Crucial for normal vision, particularly night vision",
@@ -64,6 +67,9 @@ export const vitamins = [
             tagline: "Thiamine — The Energy Spark",
             color: "#F4A261",
             gradient: "from-yellow-400 to-orange-400",
+            youtube_id: "0NlkyXqepGs",
+            youtube_start: 437,    // Start at 15 seconds
+            youtube_end: 556,
             benefits: [
                 "Converts food into usable energy (especially carbohydrates)",
                 "Supports brain focus and memory",
@@ -126,6 +132,9 @@ export const vitamins = [
             tagline: "The Nerve & Blood Builder",
             color: "#E63946",
             gradient: "from-red-400 to-pink-500",
+            youtube_id: "bYbhjEkpjGo",
+            youtube_start: 622,    // Start at 15 seconds
+            youtube_end: 787,
             benefits: [
                 "Supports red blood cell production and prevents anemia",
                 "Maintains nerve cell integrity and protects the myelin sheath (nerve covering)",
@@ -186,6 +195,9 @@ export const vitamins = [
         tagline: "The Immune & Collagen Champion",
         color: "#F77F00",
         gradient: "from-orange-300 to-yellow-400",
+        youtube_id: "0NlkyXqepGs",
+        youtube_start: 40,    // Start at 15 seconds
+        youtube_end: 436,
         benefits: [
             "Essential for collagen synthesis — maintains healthy skin, blood vessels, bones, and connective tissues",
             "Powerful antioxidant (ascorbic acid — active reduced form) that protects cells from oxidative stress",
@@ -251,6 +263,9 @@ export const vitamins = [
         tagline: "The Sunshine Hormone",
         color: "#FFD60A",
         gradient: "from-yellow-300 to-amber-400",
+        youtube_id: "hDfaqTgyqc",
+        youtube_start: 156,    // Start at 15 seconds
+        youtube_end: 249,
         benefits: [
             "Bone & teeth health — enables calcium and phosphorus absorption. Deficiency leads to rickets (children), osteomalacia (adults), and increased osteoporosis risk",
             "Immune support — activates T cells and macrophages. Low levels linked to increased respiratory infections and more severe illness",
@@ -319,6 +334,9 @@ export const vitamins = [
         tagline: "The Antioxidant Protector",
         color: "#70C1B3",
         gradient: "from-teal-400 to-green-400",
+        youtube_id: "hDfaqTgyqc",
+        youtube_start: 156,    // Start at 15 seconds
+        youtube_end: 249,
         benefits: [
             "Group of fat-soluble compounds — most active form is alpha-tocopherol, which protects cell membranes from free radical damage",
             "Powerful antioxidant that reduces oxidative stress and may contribute to healthy aging and chronic disease prevention",
@@ -431,6 +449,9 @@ export const vitamins = [
         tagline: "Pyridoxine — The Protein Metabolizer",
         color: "#8B5CF6",
         gradient: "from-purple-400 to-violet-500",
+        youtube_id: "bYbhjEkpjGo",
+        youtube_start: 156,    // Start at 15 seconds
+        youtube_end: 249,
         benefits: [
             "Protein & amino acid metabolism — converts amino acids and supports overall protein utilization. Exists in three forms: pyridoxine, pyridoxal, and pyridoxamine — all converted to active PLP (pyridoxal-5′-phosphate), which acts as a coenzyme in more than 100 enzymatic reactions",
             "Brain & mood regulation — required for synthesis of serotonin, dopamine, and GABA",
@@ -493,6 +514,9 @@ export const vitamins = [
         tagline: "The Cell Division Vitamin",
         color: "#06B6D4",
         gradient: "from-cyan-400 to-blue-500",
+        youtube_id: "bYbhjEkpjGo",
+        youtube_start: 330,    // Start at 15 seconds
+        youtube_end: 621,
         benefits: [
             "Supports DNA and genetic material production",
             "Essential for red blood cell formation",
@@ -553,6 +577,9 @@ export const vitamins = [
         tagline: "Riboflavin — The Energy Releaser",
         color: "#FBBF24",
         gradient: "from-yellow-400 to-lime-400",
+        youtube_id: "0NlkyXqepGs",
+        youtube_start: 556,    // Start at 15 seconds
+        youtube_end: 686,
         benefits: [
             "Converts food into usable energy (FAD/FMN coenzymes)",
             "Acts as an antioxidant and supports DNA repair",
@@ -609,6 +636,9 @@ export const vitamins = [
         tagline: "Niacin — The Cholesterol Manager",
         color: "#EF4444",
         gradient: "from-red-400 to-rose-500",
+        youtube_id: "0NlkyXqepGs",
+        youtube_start: 687,    // Start at 15 seconds
+        youtube_end: 819,
         benefits: [
             "Supports energy production (NAD+/NADP+ coenzymes — converts carbs, fats, and proteins into usable energy)",
             "Maintains healthy skin",
