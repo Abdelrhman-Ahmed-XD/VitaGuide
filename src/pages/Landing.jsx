@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ClipboardList, Users, Shield } from "lucide-react";
+import {ArrowRight, BookOpen, ClipboardList, Users, Shield, FlaskConical} from "lucide-react";
 
 const features = [
     {
@@ -8,6 +8,13 @@ const features = [
         description: "In-depth pages for every major vitamin: benefits, deficiency signs, food sources, dosing, and toxicity.",
         color: "bg-blue-50 text-blue-600",
         link: "/home",
+    },
+    {
+        icon: FlaskConical,
+        title: "Mineral Profiles",
+        description: "Explore essential minerals: roles in vitamin activation, absorption, deficiency signs, food sources, and recommended intake.",
+        color: "bg-teal-50 text-teal-600",
+        link: "/minerals",
     },
     {
         icon: ClipboardList,
@@ -157,6 +164,26 @@ export default function Landing() {
             </section>
 
             {/* CTA */}
+
+            <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+                <div className="max-w-3xl mx-auto px-4 text-center">
+                    <h2 className="font-display text-4xl font-bold text-deep mb-4">
+                        Vitamins & Minerals: A Complete Picture
+                    </h2>
+                    <p className="text-gray-600 text-lg mb-8">
+                        Learn not just about vitamins, but how minerals enable their function. Understand the complete micronutrient ecosystem.
+                    </p>
+                    <Link
+                        to="/minerals"
+                        className="inline-flex items-center gap-2 bg-leaf text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
+                    >
+                        Explore Minerals
+                        <ArrowRight size={20} />
+                    </Link>
+                </div>
+            </section>
+
+
             <section className="py-20 bg-gradient-to-br from-leaf to-primary">
                 <div className="max-w-3xl mx-auto px-4 text-center">
                     <h2 className="font-display text-4xl font-bold text-white mb-4">

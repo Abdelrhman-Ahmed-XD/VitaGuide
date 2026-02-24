@@ -3,11 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Leaf } from "lucide-react";
 
 const links = [
-  { to: "/home", label: "Vitamins" },
-  { to: "/diagnosis", label: "Symptom Check" },
-  { to: "/blog", label: "Blog" },
-  { to: "/about", label: "About" },
-  { to: "/references", label: "References" },
+    { to: "/home", label: "Vitamins" },
+    { to: "/minerals", label: "Minerals" },  // NEW
+    { to: "/diagnosis", label: "Symptom Check" },
+    { to: "/blog", label: "Blog" },
+    { to: "/about", label: "About" },
+    { to: "/references", label: "References" },
 ];
 
 export default function Navbar() {

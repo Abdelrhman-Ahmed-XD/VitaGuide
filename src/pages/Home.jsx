@@ -89,14 +89,15 @@ export default function Home() {
         )}
 
         {/* Minerals note */}
-        <div className="mt-16 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-2xl p-8 text-center">
-          <h3 className="font-display text-2xl font-bold text-deep mb-2">
-            🔬 Essential Minerals Section
-          </h3>
-          <p className="text-gray-600 max-w-2xl mx-auto text-sm leading-relaxed">
-            Minerals like <strong>Magnesium</strong>, <strong>Zinc</strong>, <strong>Calcium</strong>, <strong>Iron</strong>, <strong>Selenium</strong>, and <strong>Iodine</strong> play critical roles in vitamin absorption and metabolism. Each vitamin page includes the minerals that directly support its function.
-          </p>
-        </div>
+          {/* Minerals note */}
+          <div className="mt-16 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-2xl p-8 text-center">
+              <h3 className="font-display text-2xl font-bold text-deep mb-2">
+                  🔬 Minerals: Vitamin Absorption Partners
+              </h3>
+              <p className="text-gray-600 max-w-2xl mx-auto text-sm leading-relaxed">
+                  Minerals like Magnesium, Zinc, Calcium, and Iron are essential cofactors that enable vitamin absorption and metabolism. Visit our <Link to="/minerals" className="font-semibold text-leaf hover:underline">Minerals Library</Link> to learn how each mineral supports vitamin function and optimal health.
+              </p>
+          </div>
       </div>
     </div>
   );

@@ -76,7 +76,52 @@ export const references = [
                 title: "Vitamin B6 Fact Sheet",
                 url: "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
                 description: "Neurotransmitter synthesis, neuropathy risk at high doses."
-            }
+            },
+            {
+                title: "Vitamin B5 (Pantothenic Acid) Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/PantothenicAcid-HealthProfessional/",
+                description: "NIH guidelines for pantothenic acid (2024)"
+            },
+            {
+                title: "Vitamin B7 (Biotin) Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Biotin-HealthProfessional/",
+                description: "NIH guidelines for biotin (2024)"
+            },
+            {
+                title: "Calcium Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/",
+                description: "Calcium absorption, vitamin D synergy (2024)"
+            },
+            {
+                title: "Magnesium Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+                description: "Magnesium's role in vitamin D activation (2024)"
+            },
+            {
+                title: "Zinc Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/",
+                description: "Zinc and vitamin A transport (2024)"
+            },
+            {
+                title: "Iron Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+                description: "Iron metabolism with vitamin C and B12 (2024)"
+            },
+            {
+                title: "Selenium Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Selenium-HealthProfessional/",
+                description: "Selenium in thyroid metabolism (2024)"
+            },
+            {
+                title: "Potassium Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Potassium-HealthProfessional/",
+                description: "Electrolyte balance guidelines (2024)"
+            },
+            {
+                title: "Copper Fact Sheet",
+                url: "https://ods.od.nih.gov/factsheets/Copper-HealthProfessional/",
+                description: "Copper's role in iron metabolism (2024)"
+            },
         ]
     },
     {
