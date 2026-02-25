@@ -128,7 +128,7 @@ export default function About() {
                     </p>
                     <div className="space-y-2">
                         <div className="bg-white/10 rounded-xl p-3">
-                            <p className="font-medium text-sm">Supervisor: Prof. / Dr. Noha Fawzy</p>
+                            <p className="font-medium text-sm">Supervisor: Ass. Prof. Dr. Noha Fawzy</p>
                             <p className="text-gray-400 text-xs">Department of Pharmacology & Toxicology</p>
                         </div>
                     </div>
