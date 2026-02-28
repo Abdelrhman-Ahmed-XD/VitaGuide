@@ -57,13 +57,20 @@ export async function saveSymptomCheckResult(data) {
     try {
         const sessionId = getSessionId();
 
+        // Convert nested arrays to objects for Firestore compatibility
+        // [["Vitamin D", 45], ["B12", 32]] → [{name: "Vitamin D", score: 45}, ...]
+        const resultsAsObjects = (data.results || []).map(([name, score]) => ({
+            name,
+            score,
+        }));
+
         const docRef = await addDoc(collection(db, "symptom_checks"), {
             sessionId: sessionId,
             symptoms_selected: data.symptoms || [],
-            results: data.results || [], // [["Vitamin D", 10], ["Vitamin B12", 8], ...]
+            results: resultsAsObjects, // Convert to objects
             symptom_count: data.symptoms?.length || 0,
-            top_deficiency: data.results?.[0]?.[0] || null,
-            top_deficiency_score: data.results?.[0]?.[1] || 0,
+            top_deficiency: resultsAsObjects[0]?.name || null,
+            top_deficiency_score: resultsAsObjects[0]?.score || 0,
             timestamp: serverTimestamp(),
             device_type: /Mobile|Android|iPhone/.test(navigator.userAgent) ? "mobile" : "desktop",
             page_duration: data.pageDuration || 0, // seconds
@@ -95,8 +102,11 @@ export async function getAnalyticsData() {
         checksSnapshot.forEach(doc => {
             const data = doc.data();
 
-            // Count deficiencies from results
-            data.results?.forEach(([deficiency, score]) => {
+            // Count deficiencies from results (now objects instead of nested arrays)
+            data.results?.forEach((result) => {
+                const deficiency = result.name || result[0]; // Handle both formats
+                const score = result.score || result[1];
+
                 if (!deficiencyCounts[deficiency]) {
                     deficiencyCounts[deficiency] = { count: 0, totalScore: 0 };
                 }

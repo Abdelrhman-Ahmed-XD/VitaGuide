@@ -1,24 +1,42 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { symptoms, symptomDeficiencyMap, vitaminPageIds } from "../data/symptoms";
+import { vitamins } from "../data/vitamins";
 import { AlertTriangle, CheckCircle, RefreshCw, ArrowRight } from "lucide-react";
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { saveSymptomCheckResult, getAnalyticsData, getSymptomLabel } from "../utils/firebase";
 
 const categories = [...new Set(symptoms.map((s) => s.category))];
 
+// Accurate weight descriptions based on your symptoms.js
 const weightDescriptions = {
-    10: { label: "Hallmark Sign", color: "bg-red-100 border-red-300", textColor: "text-red-800" },
-    9: { label: "Very Strong Indicator", color: "bg-red-50 border-red-200", textColor: "text-red-700" },
-    8: { label: "Strong Indicator", color: "bg-orange-50 border-orange-200", textColor: "text-orange-700" },
-    7: { label: "Strong Indicator", color: "bg-orange-50 border-orange-200", textColor: "text-orange-700" },
-    6: { label: "Moderate Indicator", color: "bg-amber-50 border-amber-200", textColor: "text-amber-700" },
-    5: { label: "Moderate Indicator", color: "bg-amber-50 border-amber-200", textColor: "text-amber-700" },
-    4: { label: "Weak Indicator", color: "bg-blue-50 border-blue-200", textColor: "text-blue-700" },
-    3: { label: "Weak Indicator", color: "bg-blue-50 border-blue-200", textColor: "text-blue-700" },
+    10: { label: "Hallmark Sign (Pathognomonic)", color: "bg-red-200 border-red-400", textColor: "text-red-900" },
+    9: { label: "Very Strong Indicator", color: "bg-red-100 border-red-300", textColor: "text-red-800" },
+    8: { label: "Strong Indicator", color: "bg-orange-100 border-orange-300", textColor: "text-orange-800" },
+    7: { label: "Strong Indicator", color: "bg-orange-100 border-orange-300", textColor: "text-orange-800" },
+    6: { label: "Moderate Indicator", color: "bg-yellow-100 border-yellow-300", textColor: "text-yellow-800" },
+    5: { label: "Moderate Indicator", color: "bg-yellow-100 border-yellow-300", textColor: "text-yellow-800" },
+    4: { label: "Weak Indicator", color: "bg-blue-100 border-blue-300", textColor: "text-blue-800" },
+    3: { label: "Weak/Shared Indicator", color: "bg-blue-50 border-blue-200", textColor: "text-blue-700" },
 };
 
-const COLORS = ["#2D9A4B", "#1B6CA8", "#F4A261", "#FF6B35", "#EF4444", "#8B5CF6"];
+// Vitamin color mapping from vitamins.js
+const vitaminColorMap = {
+    "Vitamin A": { color: "#FF6B35" },
+    "Vitamin B1": { color: "#F4A261" },
+    "Vitamin B2": { color: "#FBBF24" },
+    "Vitamin B3": { color: "#EF4444" },
+    "Vitamin B5": { color: "#8B7355" },
+    "Vitamin B6": { color: "#8B5CF6" },
+    "Vitamin B7": { color: "#D946A6" },
+    "Vitamin B12": { color: "#E63946" },
+    "Vitamin C": { color: "#F77F00" },
+    "Vitamin D": { color: "#FFD60A" },
+    "Vitamin E": { color: "#70C1B3" },
+    "Folate (B9)": { color: "#06B6D4" },
+    "Vitamin K": { color: "#2D9A4B" },
+    "Zinc (mineral)": { color: "#64748B" },
+};
 
 export default function Diagnosis() {
     const [selected, setSelected] = useState([]);
@@ -68,7 +86,7 @@ export default function Diagnosis() {
 
         const resultsData = {
             symptoms: selected,
-            results: sorted, // [["Vitamin D", 45], ["Vitamin B12", 32], ...]
+            results: sorted,
             pageDuration: Math.floor((Date.now() - pageStartTime) / 1000),
         };
 
@@ -89,11 +107,61 @@ export default function Diagnosis() {
         setStep("quiz");
     };
 
+    // Get risk level with color intensity based on score
     const getRiskLevel = (score, maxScore) => {
         const pct = (score / maxScore) * 100;
-        if (pct >= 70) return { label: "High Risk", color: "text-red-600 bg-red-50 border-red-200", percentage: Math.round(pct) };
-        if (pct >= 40) return { label: "Moderate Risk", color: "text-amber-600 bg-amber-50 border-amber-200", percentage: Math.round(pct) };
-        return { label: "Low Risk", color: "text-blue-600 bg-blue-50 border-blue-200", percentage: Math.round(pct) };
+
+        if (pct >= 80) {
+            return {
+                label: "High Risk",
+                bgClass: "bg-red-50 border-red-200",
+                textClass: "text-red-900",
+                badgeBg: "bg-white/30 border-red-300",
+                linkClass: "bg-white text-red-700 border-red-300",
+                barColor: "#DC2626",
+                percentage: Math.round(pct)
+            };
+        } else if (pct >= 60) {
+            return {
+                label: "High Risk",
+                bgClass: "bg-red-50 border-red-200",
+                textClass: "text-red-900",
+                badgeBg: "bg-white/30 border-red-300",
+                linkClass: "bg-white text-red-700 border-red-300",
+                barColor: "#EF4444",
+                percentage: Math.round(pct)
+            };
+        } else if (pct >= 40) {
+            return {
+                label: "Moderate Risk",
+                bgClass: "bg-yellow-50 border-yellow-200",
+                textClass: "text-yellow-900",
+                badgeBg: "bg-white/30 border-yellow-300",
+                linkClass: "bg-white text-yellow-700 border-yellow-300",
+                barColor: "#EAB308",
+                percentage: Math.round(pct)
+            };
+        } else if (pct >= 25) {
+            return {
+                label: "Low Risk",
+                bgClass: "bg-yellow-50 border-yellow-200",
+                textClass: "text-yellow-900",
+                badgeBg: "bg-white/30 border-yellow-300",
+                linkClass: "bg-white text-yellow-700 border-yellow-300",
+                barColor: "#FBBF24",
+                percentage: Math.round(pct)
+            };
+        } else {
+            return {
+                label: "Low Risk",
+                bgClass: "bg-blue-50 border-blue-200",
+                textClass: "text-blue-900",
+                badgeBg: "bg-white/20 border-blue-300",
+                linkClass: "bg-white text-blue-700 border-blue-300",
+                barColor: "#3B82F6",
+                percentage: Math.round(pct)
+            };
+        }
     };
 
     return (
@@ -243,55 +311,58 @@ export default function Diagnosis() {
                                         const deficiencyDetails = result.details[deficiency] || [];
 
                                         return (
-                                            <div key={deficiency} className={`border rounded-2xl p-5 mb-4 ${risk.color}`}>
+                                            <div key={deficiency} className={`border rounded-2xl p-5 mb-4 ${risk.bgClass}`}>
                                                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
                                                     <div>
-                                                        <h3 className="font-bold text-lg">{deficiency}</h3>
-                                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${risk.color} mt-1 inline-block`}>
+                                                        <h3 className={`font-bold text-lg ${risk.textClass}`}>{deficiency}</h3>
+                                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full border mt-1 inline-block backdrop-blur-sm ${risk.badgeBg}`}>
                               {risk.label} • {risk.percentage}%
                             </span>
                                                     </div>
                                                     {vitaminId && (
                                                         <Link
                                                             to={`/vitamin/${vitaminId}`}
-                                                            className="text-xs bg-white border border-current rounded-lg px-3 py-1.5 hover:bg-gray-50 transition-colors font-medium flex items-center gap-1 whitespace-nowrap"
+                                                            className={`text-xs border rounded-lg px-3 py-1.5 hover:opacity-80 transition-colors font-medium flex items-center gap-1 whitespace-nowrap ${risk.linkClass}`}
                                                         >
                                                             Learn more <ArrowRight size={12} />
                                                         </Link>
                                                     )}
                                                 </div>
 
-                                                {/* Score bar */}
+                                                {/* Score bar - Color changes based on risk */}
                                                 <div className="w-full bg-white/60 rounded-full h-2.5 mb-3">
                                                     <div
-                                                        className="bg-current h-2.5 rounded-full transition-all duration-700"
-                                                        style={{ width: `${(score / maxScore) * 100}%` }}
+                                                        className="h-2.5 rounded-full transition-all duration-700"
+                                                        style={{
+                                                            width: `${(score / maxScore) * 100}%`,
+                                                            backgroundColor: risk.barColor
+                                                        }}
                                                     />
                                                 </div>
 
                                                 {/* Score details */}
-                                                <div className="text-xs opacity-75 mb-2">
+                                                <div className={`text-xs mb-2 ${risk.textClass} opacity-90`}>
                                                     <strong>Score: {score}</strong> from {deficiencyDetails.length} matching symptom{deficiencyDetails.length !== 1 ? 's' : ''}
                                                 </div>
 
                                                 {/* Contributing symptoms */}
                                                 <details className="cursor-pointer">
-                                                    <summary className="text-xs font-medium opacity-75 hover:opacity-100 transition-opacity">
+                                                    <summary className={`text-xs font-medium ${risk.textClass} opacity-90 hover:opacity-100 transition-opacity`}>
                                                         Show contributing symptoms ({deficiencyDetails.length})
                                                     </summary>
-                                                    <div className="mt-2 space-y-1 text-xs opacity-75">
+                                                    <div className={`mt-2 space-y-1 text-xs ${risk.textClass} opacity-90`}>
                                                         {deficiencyDetails
                                                             .sort((a, b) => b.weight - a.weight)
                                                             .map((detail, idx) => {
                                                                 const desc = weightDescriptions[detail.weight];
                                                                 return (
                                                                     <div key={idx} className="flex items-start gap-2">
-                                    <span className="font-semibold text-current flex-shrink-0 mt-0.5">
+                                    <span className={`font-semibold flex-shrink-0 mt-0.5 ${risk.textClass}`}>
                                       +{detail.weight}
                                     </span>
                                                                         <div>
-                                                                            <p className="font-medium">{detail.symptom}</p>
-                                                                            <p className="text-xs opacity-75">({desc?.label})</p>
+                                                                            <p className={`font-medium ${risk.textClass}`}>{detail.symptom}</p>
+                                                                            <p className={`text-xs opacity-75 ${risk.textClass}`}>({desc?.label})</p>
                                                                         </div>
                                                                     </div>
                                                                 );
@@ -303,25 +374,24 @@ export default function Diagnosis() {
                                     });
                                 })()}
 
-                                {/* Charts Section */}
+                                {/* Charts Section - ALL VITAMINS */}
                                 {globalStats && globalStats.deficiencies.length > 0 && (
                                     <>
                                         <div className="mt-8 mb-6">
                                             <h3 className="font-display text-2xl font-bold text-deep mb-4">
-                                                📊 Top 5 Deficiencies Found
+                                                📊 All Deficiencies Found
                                             </h3>
                                             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                                                <ResponsiveContainer width="100%" height={300}>
-                                                    <BarChart data={globalStats.deficiencies.slice(0, 5)}>
+                                                <ResponsiveContainer width="100%" height={Math.max(300, globalStats.deficiencies.length * 40)}>
+                                                    <BarChart data={globalStats.deficiencies} layout="vertical">
                                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                                        <XAxis
+                                                        <XAxis type="number" tick={{ fontSize: 12 }} />
+                                                        <YAxis
+                                                            type="category"
                                                             dataKey="name"
-                                                            tick={{ fontSize: 12 }}
-                                                            angle={-45}
-                                                            textAnchor="end"
-                                                            height={80}
+                                                            tick={{ fontSize: 11 }}
+                                                            width={120}
                                                         />
-                                                        <YAxis tick={{ fontSize: 12 }} />
                                                         <Tooltip
                                                             contentStyle={{
                                                                 backgroundColor: "#fff",
@@ -330,21 +400,59 @@ export default function Diagnosis() {
                                                             }}
                                                             formatter={(value) => `${value} people`}
                                                         />
-                                                        <Bar dataKey="count" fill="#2D9A4B" radius={[8, 8, 0, 0]} />
+                                                        <Bar dataKey="count" radius={[0, 8, 8, 0]}>
+                                                            {globalStats.deficiencies.map((entry, index) => (
+                                                                <Cell
+                                                                    key={`cell-${index}`}
+                                                                    fill={vitaminColorMap[entry.name]?.color || "#2D9A4B"}
+                                                                />
+                                                            ))}
+                                                        </Bar>
                                                     </BarChart>
                                                 </ResponsiveContainer>
 
-                                                {/* Top 5 List */}
+                                                {/* All Vitamins List */}
                                                 <div className="mt-6 space-y-2">
-                                                    {globalStats.deficiencies.slice(0, 5).map((item, idx) => (
-                                                        <div key={item.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                                    {globalStats.deficiencies.map((item, idx) => (
+                                                        <div
+                                                            key={item.name}
+                                                            className="flex items-center justify-between p-3 rounded-lg border"
+                                                            style={{
+                                                                backgroundColor: vitaminColorMap[item.name]?.color + "15",
+                                                                borderColor: vitaminColorMap[item.name]?.color + "40"
+                                                            }}
+                                                        >
                                                             <div className="flex items-center gap-3">
-                                                                <span className="font-bold text-leaf w-6 text-center">{idx + 1}.</span>
-                                                                <span className="font-semibold text-gray-800">{item.name}</span>
+                                                                <span
+                                                                    className="font-bold w-8 text-center text-white rounded px-2 py-1 text-sm"
+                                                                    style={{backgroundColor: vitaminColorMap[item.name]?.color || "#2D9A4B"}}
+                                                                >
+                                                                    {idx + 1}
+                                                                </span>
+                                                                <span
+                                                                    className="font-semibold"
+                                                                    style={{color: vitaminColorMap[item.name]?.color || "#2D9A4B"}}
+                                                                >
+                                                                    {item.name}
+                                                                </span>
                                                             </div>
-                                                            <div className="text-right">
-                                                                <span className="font-bold text-gray-900">{item.percentage}%</span>
-                                                                <span className="text-gray-500 text-sm ml-2">({item.count})</span>
+                                                            <div className="text-right flex items-center gap-3">
+                                                                <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                                    <div
+                                                                        className="h-2 rounded-full transition-all"
+                                                                        style={{
+                                                                            width: `${item.percentage}%`,
+                                                                            backgroundColor: vitaminColorMap[item.name]?.color || "#2D9A4B"
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                                <span
+                                                                    className="font-bold text-sm"
+                                                                    style={{color: vitaminColorMap[item.name]?.color || "#2D9A4B"}}
+                                                                >
+                                                                    {item.percentage}%
+                                                                </span>
+                                                                <span className="text-gray-500 text-sm min-w-fit">({item.count})</span>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -352,26 +460,29 @@ export default function Diagnosis() {
                                             </div>
                                         </div>
 
-                                        {/* Pie Chart */}
+                                        {/* Pie Chart - All vitamins */}
                                         <div className="mt-6">
                                             <h3 className="font-display text-xl font-bold text-deep mb-4">
-                                                🥧 Deficiency Distribution
+                                                🥧 Deficiency Distribution (All Vitamins)
                                             </h3>
                                             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                                                <ResponsiveContainer width="100%" height={300}>
+                                                <ResponsiveContainer width="100%" height={400}>
                                                     <PieChart>
                                                         <Pie
-                                                            data={globalStats.deficiencies.slice(0, 6)}
+                                                            data={globalStats.deficiencies}
                                                             cx="50%"
                                                             cy="50%"
                                                             labelLine={false}
                                                             label={({ name, percentage }) => `${name} (${percentage}%)`}
-                                                            outerRadius={80}
+                                                            outerRadius={100}
                                                             fill="#8884d8"
                                                             dataKey="count"
                                                         >
-                                                            {globalStats.deficiencies.slice(0, 6).map((entry, index) => (
-                                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                            {globalStats.deficiencies.map((entry, index) => (
+                                                                <Cell
+                                                                    key={`cell-${index}`}
+                                                                    fill={vitaminColorMap[entry.name]?.color || "#2D9A4B"}
+                                                                />
                                                             ))}
                                                         </Pie>
                                                         <Tooltip formatter={(value) => `${value} checks`} />
@@ -382,24 +493,27 @@ export default function Diagnosis() {
                                     </>
                                 )}
 
-                                {/* Weight Scale Reference */}
+                                {/* How We Calculate Risk */}
                                 <div className="bg-gray-50 border border-gray-200 rounded-2xl p-5 mt-6 mb-6">
                                     <h4 className="font-bold text-gray-800 mb-3 text-sm">📊 How We Calculate Risk</h4>
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                                    <p className="text-gray-700 text-sm mb-3 leading-relaxed">
+                                        Each symptom is weighted based on how strongly it indicates a specific vitamin deficiency:
+                                    </p>
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                                         {[
-                                            { weight: 10, label: "Hallmark" },
-                                            { weight: 7, label: "Strong" },
-                                            { weight: 5, label: "Moderate" },
-                                            { weight: 3, label: "Weak" },
+                                            { weight: 10, label: "Hallmark (10pts)" },
+                                            { weight: 7, label: "Strong (7-9pts)" },
+                                            { weight: 5, label: "Moderate (5-6pts)" },
+                                            { weight: 3, label: "Weak (3-4pts)" },
                                         ].map((item) => (
                                             <div key={item.weight} className={`p-2 rounded-lg border ${weightDescriptions[item.weight].color}`}>
-                                                <div className={`font-bold ${weightDescriptions[item.weight].textColor}`}>+{item.weight}</div>
-                                                <div className="text-gray-600 text-xs">{item.label} Sign</div>
+                                                <div className={`font-bold ${weightDescriptions[item.weight].textColor}`}>{item.label}</div>
+                                                <div className="text-gray-600 text-xs mt-1">Indicator</div>
                                             </div>
                                         ))}
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-3">
-                                        Each symptom is weighted based on how strongly it indicates a specific deficiency. Higher scores suggest greater risk, but lab testing is required for confirmation.
+                                    <p className="text-xs text-gray-500 mt-3 leading-relaxed">
+                                        Your risk level is calculated by adding up all symptom weights for each vitamin. Higher total scores indicate greater deficiency risk, but laboratory testing by a healthcare provider is required for confirmation.
                                     </p>
                                 </div>
 
