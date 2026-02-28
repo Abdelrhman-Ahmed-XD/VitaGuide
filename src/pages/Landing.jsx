@@ -242,24 +242,15 @@ export default function Landing() {
             </section>
 
 
+
+
+
+
+
+
             {/* CTA */}
             {/* SDG 3 Banner */}
-            <div className="mt-16 bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200 rounded-2xl p-8 text-center">
-                <h3 className="font-display text-2xl font-bold text-deep mb-2">
-                    🌍 Aligned with SDG 3 – Good Health and Well-being
-                </h3>
-                <p className="text-gray-700 max-w-2xl mx-auto text-sm leading-relaxed">
-                    VitaGuide promotes nutritional awareness and prevents micronutrient-related health issues by explaining how minerals are essential co-factors in vitamin absorption and metabolism. Understanding mineral-vitamin interactions helps prevent malnutrition, supports optimal health outcomes, and empowers individuals to make evidence-based nutritional choices.
-                </p>
-            </div>
-            {/* Disclaimer Banner */}
-            <section className="py-10 bg-amber-50 border-y border-amber-200">
-                <div className="max-w-4xl mx-auto px-4 text-center">
-                    <p className="text-amber-800 text-sm leading-relaxed">
-                        <strong>⚠️ Medical Disclaimer:</strong> The information on this website is for educational purposes only and does not constitute medical advice. It is not a substitute for professional medical consultation, diagnosis, or treatment. Always consult a qualified healthcare provider before making any changes to your diet or supplement regimen.
-                    </p>
-                </div>
-            </section>
+
             <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
                 <div className="max-w-3xl mx-auto px-4 text-center">
                     <h2 className="font-display text-4xl font-bold text-deep mb-4">
@@ -279,6 +270,8 @@ export default function Landing() {
             </section>
 
 
+
+
             <section className="py-20 bg-gradient-to-br from-leaf to-primary">
                 <div className="max-w-3xl mx-auto px-4 text-center">
                     <h2 className="font-display text-4xl font-bold text-white mb-4">
@@ -296,6 +289,25 @@ export default function Landing() {
                     </Link>
                 </div>
             </section>
+
+            <div className="mt-16 bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200 rounded-2xl p-8 text-center">
+                <h3 className="font-display text-2xl font-bold text-deep mb-2">
+                    🌍 Aligned with SDG 3 – Good Health and Well-being
+                </h3>
+                <p className="text-gray-700 max-w-2xl mx-auto text-sm leading-relaxed">
+                    VitaGuide promotes nutritional awareness and prevents micronutrient-related health issues by explaining how minerals are essential co-factors in vitamin absorption and metabolism. Understanding mineral-vitamin interactions helps prevent malnutrition, supports optimal health outcomes, and empowers individuals to make evidence-based nutritional choices.
+                </p>
+            </div>
+            {/* Disclaimer Banner */}
+            <section className="py-10 bg-amber-50 border-y border-amber-200">
+                <div className="max-w-4xl mx-auto px-4 text-center">
+                    <p className="text-amber-800 text-sm leading-relaxed">
+                        <strong>⚠️ Medical Disclaimer:</strong> The information on this website is for educational purposes only and does not constitute medical advice. It is not a substitute for professional medical consultation, diagnosis, or treatment. Always consult a qualified healthcare provider before making any changes to your diet or supplement regimen.
+                    </p>
+                </div>
+            </section>
+
+
 
             <style>{`
         @keyframes float {
