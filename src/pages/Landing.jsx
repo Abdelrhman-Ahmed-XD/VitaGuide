@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import {ArrowRight, BookOpen, ClipboardList, Users, Shield, FlaskConical} from "lucide-react";
+import {ArrowRight, BookOpen, ClipboardList, Users, Shield, FlaskConical, TrendingUp} from "lucide-react";
+import { useState, useEffect } from "react";
+import { trackWebsiteVisit, getAnalyticsData } from "../utils/firebase";
 
 const features = [
     {
@@ -49,6 +51,24 @@ const vitaminsPreview = [
 ];
 
 export default function Landing() {
+    const [analytics, setAnalytics] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Track this visit
+        trackWebsiteVisit();
+
+        // Fetch analytics data
+        fetchAnalytics();
+    }, []);
+
+    const fetchAnalytics = async () => {
+        setLoading(true);
+        const data = await getAnalyticsData();
+        setAnalytics(data);
+        setLoading(false);
+    };
+
     return (
         <div className="pt-16">
             {/* Hero */}
@@ -118,6 +138,73 @@ export default function Landing() {
                     <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 80L1440 80L1440 30C1200 80 900 0 720 30C540 60 240 0 0 30L0 80Z" fill="#FFF8F0" />
                     </svg>
+                </div>
+            </section>
+
+            {/* Analytics Stats Section */}
+            <section className="py-16 bg-cream">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {!loading && analytics && (
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                            {/* Total Visitors */}
+                            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-3xl">👥</span>
+                                    <TrendingUp size={20} className="text-blue-600" />
+                                </div>
+                                <p className="text-gray-600 text-sm mb-1">Total Website Visitors</p>
+                                <p className="font-display text-3xl font-bold text-blue-900">
+                                    {analytics.totalVisits.toLocaleString()}
+                                </p>
+                                <p className="text-blue-600 text-xs mt-2">Active this month</p>
+                            </div>
+
+                            {/* Total Symptom Checks */}
+                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-3xl">📋</span>
+                                    <TrendingUp size={20} className="text-green-600" />
+                                </div>
+                                <p className="text-gray-600 text-sm mb-1">Symptom Checks Completed</p>
+                                <p className="font-display text-3xl font-bold text-green-900">
+                                    {analytics.totalChecks.toLocaleString()}
+                                </p>
+                                <p className="text-green-600 text-xs mt-2">
+                                    {analytics.checkPercentage}% of visitors
+                                </p>
+                            </div>
+
+                            {/* Top Deficiency */}
+                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-3xl">💊</span>
+                                    <TrendingUp size={20} className="text-orange-600" />
+                                </div>
+                                <p className="text-gray-600 text-sm mb-1">Top Deficiency Found</p>
+                                <p className="font-display text-2xl font-bold text-orange-900">
+                                    {analytics.topDeficiency?.name || "—"}
+                                </p>
+                                <p className="text-orange-600 text-xs mt-2">
+                                    {analytics.topDeficiency?.percentage}% of checks
+                                </p>
+                            </div>
+
+                            {/* Most Popular Symptom */}
+                            <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-3xl">🔍</span>
+                                    <TrendingUp size={20} className="text-purple-600" />
+                                </div>
+                                <p className="text-gray-600 text-sm mb-1">Most Popular Symptom</p>
+                                <p className="font-display text-xl font-bold text-purple-900 line-clamp-2">
+                                    {analytics.topSymptom?.symptom?.replace(/_/g, " ") || "—"}
+                                </p>
+                                <p className="text-purple-600 text-xs mt-2">
+                                    {analytics.topSymptom?.count} reports
+                                </p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
 
