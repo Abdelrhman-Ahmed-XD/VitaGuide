@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { symptoms, symptomDeficiencyMap, vitaminPageIds } from "../data/symptoms";
 import { AlertTriangle, CheckCircle, RefreshCw, ArrowRight } from "lucide-react";
+import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { saveSymptomCheckResult, getAnalyticsData, getSymptomLabel } from "../utils/firebase";
 
 const categories = [...new Set(symptoms.map((s) => s.category))];
 
-// Weight descriptions
 const weightDescriptions = {
     10: { label: "Hallmark Sign", color: "bg-red-100 border-red-300", textColor: "text-red-800" },
     9: { label: "Very Strong Indicator", color: "bg-red-50 border-red-200", textColor: "text-red-700" },
@@ -17,10 +18,23 @@ const weightDescriptions = {
     3: { label: "Weak Indicator", color: "bg-blue-50 border-blue-200", textColor: "text-blue-700" },
 };
 
+const COLORS = ["#2D9A4B", "#1B6CA8", "#F4A261", "#FF6B35", "#EF4444", "#8B5CF6"];
+
 export default function Diagnosis() {
     const [selected, setSelected] = useState([]);
     const [result, setResult] = useState(null);
-    const [step, setStep] = useState("quiz"); // "quiz" | "result"
+    const [step, setStep] = useState("quiz");
+    const [globalStats, setGlobalStats] = useState(null);
+    const [pageStartTime] = useState(Date.now());
+
+    useEffect(() => {
+        fetchGlobalStats();
+    }, []);
+
+    const fetchGlobalStats = async () => {
+        const stats = await getAnalyticsData();
+        setGlobalStats(stats);
+    };
 
     const toggle = (id) => {
         setSelected((prev) =>
@@ -28,10 +42,9 @@ export default function Diagnosis() {
         );
     };
 
-    const analyze = () => {
+    const analyze = async () => {
         if (selected.length === 0) return;
 
-        // Tally scores for each deficiency
         const scores = {};
         const details = {};
 
@@ -49,10 +62,21 @@ export default function Diagnosis() {
             });
         });
 
-        // Sort by score (include all scores >= 3)
         const sorted = Object.entries(scores)
             .sort((a, b) => b[1] - a[1])
-            .filter(([, score]) => score >= 3); // Show all scores from 3+
+            .filter(([, score]) => score >= 3);
+
+        const resultsData = {
+            symptoms: selected,
+            results: sorted, // [["Vitamin D", 45], ["Vitamin B12", 32], ...]
+            pageDuration: Math.floor((Date.now() - pageStartTime) / 1000),
+        };
+
+        // Save to Firebase
+        await saveSymptomCheckResult(resultsData);
+
+        // Refresh global stats
+        await fetchGlobalStats();
 
         setResult({ sorted, details, totalSymptoms: selected.length });
         setStep("result");
@@ -176,6 +200,37 @@ export default function Diagnosis() {
                                     </div>
                                 </div>
 
+                                {/* Global Stats Section */}
+                                {globalStats && (
+                                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+                                        <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4">
+                                            <p className="text-gray-600 text-xs mb-1">💊 Top Deficiency Found</p>
+                                            <p className="font-bold text-orange-900 text-sm">{globalStats.topDeficiency?.name || "—"}</p>
+                                            <p className="text-orange-600 text-xs mt-1">{globalStats.topDeficiency?.percentage}% of users</p>
+                                        </div>
+
+                                        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4">
+                                            <p className="text-gray-600 text-xs mb-1">🔍 Most Popular Symptom</p>
+                                            <p className="font-bold text-purple-900 text-sm line-clamp-1">
+                                                {globalStats.topSymptom?.symptom?.replace(/_/g, " ") || "—"}
+                                            </p>
+                                            <p className="text-purple-600 text-xs mt-1">{globalStats.topSymptom?.count} reports</p>
+                                        </div>
+
+                                        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-4">
+                                            <p className="text-gray-600 text-xs mb-1">📊 Total Checks</p>
+                                            <p className="font-bold text-blue-900 text-sm">{globalStats.totalChecks.toLocaleString()}</p>
+                                            <p className="text-blue-600 text-xs mt-1">Community wide</p>
+                                        </div>
+
+                                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4">
+                                            <p className="text-gray-600 text-xs mb-1">👥 Participation Rate</p>
+                                            <p className="font-bold text-green-900 text-sm">{globalStats.checkPercentage}%</p>
+                                            <p className="text-green-600 text-xs mt-1">Of website visitors</p>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <h2 className="font-display text-2xl font-bold text-deep mb-4">
                                     Your Risk Assessment
                                 </h2>
@@ -247,6 +302,85 @@ export default function Diagnosis() {
                                         );
                                     });
                                 })()}
+
+                                {/* Charts Section */}
+                                {globalStats && globalStats.deficiencies.length > 0 && (
+                                    <>
+                                        <div className="mt-8 mb-6">
+                                            <h3 className="font-display text-2xl font-bold text-deep mb-4">
+                                                📊 Top 5 Deficiencies Found
+                                            </h3>
+                                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                                <ResponsiveContainer width="100%" height={300}>
+                                                    <BarChart data={globalStats.deficiencies.slice(0, 5)}>
+                                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                                        <XAxis
+                                                            dataKey="name"
+                                                            tick={{ fontSize: 12 }}
+                                                            angle={-45}
+                                                            textAnchor="end"
+                                                            height={80}
+                                                        />
+                                                        <YAxis tick={{ fontSize: 12 }} />
+                                                        <Tooltip
+                                                            contentStyle={{
+                                                                backgroundColor: "#fff",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "8px"
+                                                            }}
+                                                            formatter={(value) => `${value} people`}
+                                                        />
+                                                        <Bar dataKey="count" fill="#2D9A4B" radius={[8, 8, 0, 0]} />
+                                                    </BarChart>
+                                                </ResponsiveContainer>
+
+                                                {/* Top 5 List */}
+                                                <div className="mt-6 space-y-2">
+                                                    {globalStats.deficiencies.slice(0, 5).map((item, idx) => (
+                                                        <div key={item.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="font-bold text-leaf w-6 text-center">{idx + 1}.</span>
+                                                                <span className="font-semibold text-gray-800">{item.name}</span>
+                                                            </div>
+                                                            <div className="text-right">
+                                                                <span className="font-bold text-gray-900">{item.percentage}%</span>
+                                                                <span className="text-gray-500 text-sm ml-2">({item.count})</span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Pie Chart */}
+                                        <div className="mt-6">
+                                            <h3 className="font-display text-xl font-bold text-deep mb-4">
+                                                🥧 Deficiency Distribution
+                                            </h3>
+                                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                                <ResponsiveContainer width="100%" height={300}>
+                                                    <PieChart>
+                                                        <Pie
+                                                            data={globalStats.deficiencies.slice(0, 6)}
+                                                            cx="50%"
+                                                            cy="50%"
+                                                            labelLine={false}
+                                                            label={({ name, percentage }) => `${name} (${percentage}%)`}
+                                                            outerRadius={80}
+                                                            fill="#8884d8"
+                                                            dataKey="count"
+                                                        >
+                                                            {globalStats.deficiencies.slice(0, 6).map((entry, index) => (
+                                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                            ))}
+                                                        </Pie>
+                                                        <Tooltip formatter={(value) => `${value} checks`} />
+                                                    </PieChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
 
                                 {/* Weight Scale Reference */}
                                 <div className="bg-gray-50 border border-gray-200 rounded-2xl p-5 mt-6 mb-6">
